@@ -19,7 +19,7 @@ import { WhyChooseUs } from "@/components/WhyChooseUs";
 const Landing = () => {
   return (
     <div className="min-h-screen">
-      <Navbar />
+      <Navbar mode="public" />
       <Hero />
       <Features />
       <HowItWorks />

@@ -325,3 +325,20 @@ body {
   background-color: hsl(var(--accent));
   color: white;
 }
+
+
+
+.bg-destructive\/50 {
+  background-color: hsl(var(--destructive) / 0.1);
+}
+.hover\:bg-destructive\/50:hover {
+  background-color: hsl(var(--destructive) / 0.1);
+}
+
+.text-destructive {
+  color: hsl(var(--destructive));
+}
+
+.text-destructive-foreground {
+  color: hsl(var(--destructive-foreground));
+}

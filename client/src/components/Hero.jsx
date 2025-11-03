@@ -3,8 +3,10 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link, useNavigate } from "react-router-dom";
 
 export const Hero = () => {
+  const navigate = useNavigate()
   return (
     <section className="relative min-h-screen flex items-center justify-center bg-gradient-hero overflow-hidden">
       {/* Animated Background Elements */}
@@ -79,7 +81,9 @@ export const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-6"
+            
           >
+            <Link to={'/dashboard'}>
             <Button
               size="lg"
               className="bg-gradient-primary hover:shadow-glow transition-all text-inverted text-lg px-8 py-6 group"
@@ -87,6 +91,7 @@ export const Hero = () => {
               Start Your Journey
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
+            </Link>
 
             <Button
               size="lg"
