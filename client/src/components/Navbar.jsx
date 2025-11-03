@@ -187,6 +187,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { motion, AnimatePresence } from "framer-motion";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleTheme } from "@/redux/themeSlice";
 
 export const Navbar = () => {
 //   const [theme, setTheme] = useState("light");
@@ -198,22 +200,30 @@ export const Navbar = () => {
 //     document.documentElement.classList.toggle("dark");
 //   };
 
-const [theme, setTheme] = useState(() => {
-    // Check if dark class exists on mount
-    return document.documentElement.classList.contains("dark") ? "dark" : "light";
-  });
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const toggleTheme = () => {
-    const newTheme = theme === "light" ? "dark" : "light";
-    setTheme(newTheme);
+const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+// const [theme, setTheme] = useState(() => {
+//     // Check if dark class exists on mount
+//     return document.documentElement.classList.contains("dark") ? "dark" : "light";
+//   });
+  
+
+  // const toggleTheme = () => {
+  //   const newTheme = theme === "light" ? "dark" : "light";
+  //   setTheme(newTheme);
     
-    if (newTheme === "dark") {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  };
+  //   if (newTheme === "dark") {
+  //     document.documentElement.classList.add("dark");
+  //   } else {
+  //     document.documentElement.classList.remove("dark");
+  //   }
+  // };
+
+
+
+  const dispatch = useDispatch()
+  const theme = useSelector(state => state.theme.theme)
 
   const navLinks = [
     { label: "Features", href: "#features" },
@@ -280,7 +290,7 @@ const [theme, setTheme] = useState(() => {
             <Button
               variant="ghost"
               size="icon"
-              onClick={toggleTheme}
+              onClick={() => dispatch(toggleTheme())}
               className="hidden sm:flex"
             >
               {theme === "light" ? (
