@@ -59,6 +59,7 @@ export const Hero = () => {
             <span className="bg-gradient-primary bg-clip-text text-transparent">
               AI Intelligence
             </span>
+            
           </motion.h1>
 
           {/* Subheadline */}
@@ -77,15 +78,16 @@ export const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+            className="flex flex-col sm:flex-row items-center justify-center gap-6"
           >
             <Button
               size="lg"
-              className="bg-gradient-primary hover:shadow-glow transition-all text-lg px-8 py-6 group"
+              className="bg-gradient-primary hover:shadow-glow transition-all text-inverted text-lg px-8 py-6 group"
             >
               Start Your Journey
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
+
             <Button
               size="lg"
               variant="outline"
