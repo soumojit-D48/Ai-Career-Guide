@@ -14,6 +14,7 @@ import { Footer } from "@/components/Footer";
 import { Hero } from "@/components/Hero";
 import { HowItWorks } from "@/components/HowItWorks";
 import { Navbar } from "@/components/Navbar";
+import { Testimonials } from "@/components/Testimonnials";
 import { WhyChooseUs } from "@/components/WhyChooseUs";
 
 const Landing = () => {
@@ -24,6 +25,7 @@ const Landing = () => {
       <Features />
       <HowItWorks />
       <WhyChooseUs />
+      <Testimonials/>
       <CTA />
       <Footer />
     </div>
