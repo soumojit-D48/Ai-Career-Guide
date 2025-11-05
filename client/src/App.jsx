@@ -8,6 +8,7 @@ import Courses from "./pages/Courses"
 import JobsInternships from "./pages/JobInternsip"
 import AICareerRoadmap from "./pages/AIRoadmap"
 import AIResumeAnalyser from "./pages/AIResumeAnalyser"
+import AIMentor from "./pages/AIMentor"
 
 
 function App() {
@@ -87,6 +88,15 @@ function App() {
            element= {
             <Layout>
               <AIResumeAnalyser/>
+            </Layout>
+           }
+        />
+
+        <Route 
+        path="/ai-mentor"
+           element= {
+            <Layout>
+              <AIMentor/>
             </Layout>
            }
         />
