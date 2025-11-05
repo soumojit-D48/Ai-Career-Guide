@@ -4,6 +4,7 @@ import Dashboard from "./pages/Dashboard"
 import Layout from "./components/layoutComponents/Layout"
 import Quiz from "./pages/Quiz"
 import Colleges from "./pages/Collages"
+import Courses from "./pages/Courses"
 
 
 function App() {
@@ -39,10 +40,19 @@ function App() {
         />
 
         <Route 
-        path="/collages"
+        path="/college-finder"
            element= {
             <Layout>
               <Colleges/>
+            </Layout>
+           }
+        />
+
+        <Route 
+        path="/courses"
+           element= {
+            <Layout>
+              <Courses/>
             </Layout>
            }
         />
