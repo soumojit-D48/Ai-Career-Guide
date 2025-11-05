@@ -85,7 +85,7 @@ const Colleges = () => {
 
   const filteredColleges = colleges.filter(college => {
     const matchesSearch = college.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         college.location.toLowerCase().includes(searchQuery.toLowerCase());
+    college.location.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesMajor = !selectedMajor || college.majors.includes(selectedMajor);
     return matchesSearch && matchesMajor;
   });

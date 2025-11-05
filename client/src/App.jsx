@@ -5,6 +5,7 @@ import Layout from "./components/layoutComponents/Layout"
 import Quiz from "./pages/Quiz"
 import Colleges from "./pages/Collages"
 import Courses from "./pages/Courses"
+import JobsInternships from "./pages/JobInternsip"
 
 
 function App() {
@@ -53,6 +54,15 @@ function App() {
            element= {
             <Layout>
               <Courses/>
+            </Layout>
+           }
+        />
+
+        <Route 
+        path="/job-internships"
+           element= {
+            <Layout>
+              <JobsInternships/>
             </Layout>
            }
         />

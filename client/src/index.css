@@ -38,6 +38,8 @@
   
   /* Transitions */
   --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  --input: 220 15% 94%; /* light gray */
 }
 
 /* Dark Mode Colors */
@@ -66,6 +68,8 @@
   
   --shadow-soft: 0 4px 20px -2px hsl(0 0% 0% / 0.4);
   --shadow-glow: 0 0 40px hsl(210 100% 55% / 0.3);
+
+  --input: 220 15% 18%; /* darker */
 }
 
 /* Base Styles */
@@ -278,4 +282,9 @@ body {
 
 .text-destructive-foreground {
   color: hsl(var(--destructive-foreground));
+}
+
+input {
+  background-color: hsl(var(--input) / 0.2);
+  backdrop-filter: blur(8px);
 }
