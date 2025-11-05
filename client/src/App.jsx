@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom"
-import Landing from "./pages/landing"
+import Landing from "./pages/Landing"
 import Dashboard from "./pages/Dashboard"
 import Layout from "./components/layoutComponents/Layout"
 import Quiz from "./pages/Quiz"
