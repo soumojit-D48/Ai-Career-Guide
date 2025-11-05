@@ -93,6 +93,7 @@ export const Hero = () => {
             </Button>
             </Link>
 
+          <Link to={'/quiz'}>
             <Button
               size="lg"
               variant="outline"
@@ -100,6 +101,7 @@ export const Hero = () => {
             >
               Take Career Quiz
             </Button>
+            </Link>
           </motion.div>
 
           {/* Stats */}
