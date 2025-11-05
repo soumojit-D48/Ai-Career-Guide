@@ -60,7 +60,7 @@ export const WhyChooseUs = () => {
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
             Why Choose{" "}
             <span className="bg-gradient-primary bg-clip-text text-transparent">
-              CareerPath AI
+              NeuraPath
             </span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">

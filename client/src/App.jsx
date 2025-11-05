@@ -11,7 +11,7 @@ import AIResumeAnalyser from "./pages/AIResumeAnalyser"
 import AIMentor from "./pages/AIMentor"
 
 
-function App() {
+function App() { // NeuraPath
 
   return (
     <div className='relative'>

@@ -9,7 +9,7 @@ const testimonials = [
     name: "Sarah Johnson",
     role: "Software Engineer",
     content:
-      "CareerPath AI helped me discover my passion for software development. The personalized roadmap was spot-on and I landed my dream job within 6 months!",
+      "NeuraPath helped me discover my passion for software development. The personalized roadmap was spot-on and I landed my dream job within 6 months!",
     rating: 5,
   },
   {
@@ -44,7 +44,7 @@ export const Testimonials = () => {
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Real stories from people who transformed their careers with
-            CareerPath AI
+            NeuraPath
           </p>
         </motion.div>
 

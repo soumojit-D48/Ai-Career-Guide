@@ -21,7 +21,7 @@ export const Footer = () => {
                 <Compass className="w-6 h-6 text-white" />
               </div>
               <span className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-                CareerPath AI
+                NeuraPath
               </span>
             </div>
             <p className="text-muted-foreground mb-6 max-w-sm">
@@ -79,7 +79,7 @@ export const Footer = () => {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-muted-foreground text-sm">
-            © 2025 CareerPath AI. All rights reserved.
+            © 2025 NeuraPath. All rights reserved.
           </p>
           <div className="flex gap-6 text-sm">
             <a
