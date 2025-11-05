@@ -6,6 +6,7 @@ import Quiz from "./pages/Quiz"
 import Colleges from "./pages/Collages"
 import Courses from "./pages/Courses"
 import JobsInternships from "./pages/JobInternsip"
+import AICareerRoadmap from "./pages/AIRoadmap"
 
 
 function App() {
@@ -63,6 +64,17 @@ function App() {
            element= {
             <Layout>
               <JobsInternships/>
+            </Layout>
+           }
+        />
+
+        
+
+        <Route 
+        path="/ai-roadmap"
+           element= {
+            <Layout>
+              <AICareerRoadmap/>
             </Layout>
            }
         />
