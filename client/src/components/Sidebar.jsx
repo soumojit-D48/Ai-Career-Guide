@@ -42,7 +42,7 @@ const Sidebar = () => {
     { id: 'college-finder', icon: GraduationCap, label: 'College Finder', path: '/college-finder' },
     { id: 'ai-roadmap', icon: Compass, label: 'AI Roadmap', path: '/ai-roadmap' },
     { id: 'job-hunting', icon: Briefcase, label: 'Job Hunting', path: '/job-internships' },
-    { id: 'resume-analyzer', icon: FileText, label: 'Resume Analyzer', path: '/resume-analyzer' },
+    { id: 'resume-analyzer', icon: FileText, label: 'Resume Analyzer', path: '/ai-resume-analyzer' },
     { id: 'courses', icon: BookOpen, label: 'Learning Resources', path: '/courses' },
     { id: 'ai-mentor', icon: Bot, label: '1v1 AI Mentor', path: '/ai-mentor' },
   ];

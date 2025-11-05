@@ -7,6 +7,7 @@ import Colleges from "./pages/Collages"
 import Courses from "./pages/Courses"
 import JobsInternships from "./pages/JobInternsip"
 import AICareerRoadmap from "./pages/AIRoadmap"
+import AIResumeAnalyser from "./pages/AIResumeAnalyser"
 
 
 function App() {
@@ -75,6 +76,17 @@ function App() {
            element= {
             <Layout>
               <AICareerRoadmap/>
+            </Layout>
+           }
+        />
+
+        
+
+        <Route 
+        path="/ai-resume-analyzer"
+           element= {
+            <Layout>
+              <AIResumeAnalyser/>
             </Layout>
            }
         />
