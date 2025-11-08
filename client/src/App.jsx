@@ -9,7 +9,20 @@ import JobsInternships from "./pages/JobInternsip"
 import AICareerRoadmap from "./pages/AIRoadmap"
 import AIResumeAnalyser from "./pages/AIResumeAnalyser"
 import AIMentor from "./pages/AIMentor"
+import { RedirectToSignIn, SignedIn, SignedOut } from "@clerk/clerk-react"
 
+
+const ProtectedRoute = ({children}) => {
+  return (
+    <>
+    <SignedIn>{children}</SignedIn>
+    <SignedOut>
+      <RedirectToSignIn />
+    </SignedOut>
+    </>
+  )
+
+}
 
 function App() { // NeuraPath
 
@@ -28,8 +41,9 @@ function App() { // NeuraPath
         <Route 
         path="/dashboard"
            element= {
-            // <Layout>
+            <ProtectedRoute>
               <Dashboard/>
+              </ProtectedRoute>
             // </Layout>
            }
         />

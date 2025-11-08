@@ -388,12 +388,15 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleTheme } from "@/redux/themeSlice";
 import { useLayout } from './layoutComponents/Layout';
+import { SignInButton, SignUpButton, UserButton, useUser } from '@clerk/clerk-react';
 
 export const Navbar = ({mode = "dashboard"}) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
   // ✅ Get sidebar state from Context
   // const { sidebarOpen, setSidebarOpen, sidebarCollapsed, setSidebarCollapsed } = useLayout();
+
+  const {isSignedIn, user} = useUser() // clerk user
 
   const dispatch = useDispatch();
   const theme = useSelector(state => state.theme.theme);
@@ -514,31 +517,52 @@ export const Navbar = ({mode = "dashboard"}) => {
               )}
             </Button>
 
-            {/* Login Button */}
-            <Button variant="ghost" className="hidden sm:inline-flex">
-              Login
-            </Button>
+               {/* ✅ Clerk Auth Buttons */}
+            {isSignedIn ? (
+              // Logged in - Show user button
+              <UserButton 
+                afterSignOutUrl="/"
+                appearance={{
+                  elements: {
+                    avatarBox: "w-10 h-10"
+                  }
+                }}
+              />
+            ) : (
+              // Not logged in - Show login/signup
+              <>
+                <SignInButton mode="modal">
+                  <Button variant="ghost" className="hidden sm:inline-flex">
+                    Login
+                  </Button>
+                </SignInButton>
 
-            {/* Get Started Button */}
-            <Button className="hidden sm:inline-flex bg-gradient-primary hover:shadow-glow transition-all">
-              Get Started
-            </Button>
+                <SignUpButton mode="modal">
+                  <Button className="hidden sm:inline-flex bg-gradient-primary hover:shadow-glow transition-all">
+                    Get Started
+                  </Button>
+                </SignUpButton>
+              </>
+            )}
 
             {/* Mobile Menu Toggle */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="md:hidden"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            >
-              {mobileMenuOpen ? (
-                <X className="w-5 h-5" />
-              ) : (
-                <Menu className="w-5 h-5" />
-              )}
-            </Button>
+            {mode === "public" && (
+              <Button
+                variant="ghost"
+                size="icon"
+                className="md:hidden"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              >
+                {mobileMenuOpen ? (
+                  <X className="w-5 h-5" />
+                ) : (
+                  <Menu className="w-5 h-5" />
+                )}
+              </Button>
+            )}
           </div>
         </div>
+           
 
         {/* Mobile Menu */}
         <AnimatePresence>
@@ -568,12 +592,27 @@ export const Navbar = ({mode = "dashboard"}) => {
                       <Sun className="w-5 h-5" />
                     )}
                   </Button>
-                  <Button variant="ghost" className="flex-1">
-                    Login
-                  </Button>
-                  <Button className="flex-1 bg-gradient-primary">
-                    Get Started
-                  </Button>
+
+
+
+                  {isSignedIn ? (
+                      <UserButton afterSignOutUrl="/" />
+                    ) : (
+                      <>
+                        <SignInButton mode="modal">
+                          <Button variant="ghost" className="flex-1">
+                            Login
+                          </Button>
+                        </SignInButton>
+                        <SignUpButton mode="modal">
+                          <Button className="flex-1 bg-gradient-primary">
+                            Get Started
+                          </Button>
+                        </SignUpButton>
+                      </>
+                    )}
+
+
                 </div>
               </div>
             </motion.div>
