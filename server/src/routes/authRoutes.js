@@ -9,7 +9,7 @@ import {
   updateProfile,
   deleteAccount,
   handleClerkWebhook
-} from "../controllers/AuthController.js";
+} from '../controllers/authControllers.js'
 import { requireAuth, verifyClerkWebhook } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
