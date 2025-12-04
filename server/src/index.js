@@ -1,6 +1,7 @@
 
 
 import 'dotenv/config'
+// dotenv.config()
 import express from "express"
 import cors from 'cors'
 import cookieParser from "cookie-parser"
@@ -12,6 +13,8 @@ import {clerkMiddleware} from '@clerk/express'
 
 
 import authRoutes from "./routes/authRoutes.js";
+import quizRoutes from './routes/quizRoutes.js'
+import seedRoutes from './routes/seedRoutes.js'
 
 
 // dotenv.config()
@@ -25,14 +28,15 @@ app.use(cors(cofigureCors()))
 app.use(express.json())
 app.use(cookieParser())
 
-app.use(clerkMiddleware());
-
-// app.get('/', (req, res) => res.send('api working fine'))
-
+// app.use(clerkMiddleware());
 
 // Routes
 app.use("/api/auth", authRoutes);
 
+app.use("/api/quiz", quizRoutes);
+app.use("/api/seed", seedRoutes);
 
+
+app.get('/', (req, res) => res.send('api working fine'))
 
 app.listen(PORT, () => console.log(`server started on port: ${PORT}`))

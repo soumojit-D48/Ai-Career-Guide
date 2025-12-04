@@ -5,7 +5,7 @@ function cofigureCors() {
         origin: (origin, callBack) => {
             const allowOrigins = [
                 'http://localhost:5173', // dev
-                "https://neurapath.vercel.app"
+                // "https://neurapath.vercel.app"
             ]
 
             if(!origin || allowOrigins.indexOf(origin) !== -1){

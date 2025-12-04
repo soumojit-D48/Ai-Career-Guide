@@ -10,6 +10,7 @@ import AICareerRoadmap from "./pages/AIRoadmap"
 import AIResumeAnalyser from "./pages/AIResumeAnalyser"
 import AIMentor from "./pages/AIMentor"
 import { RedirectToSignIn, SignedIn, SignedOut } from "@clerk/clerk-react"
+import TestMyComponent from "./pages/test"
 
 
 const ProtectedRoute = ({children}) => {
@@ -46,6 +47,18 @@ function App() { // NeuraPath
               </ProtectedRoute>
             // </Layout>
            }
+        />
+
+        <Route  
+
+        path="/test"
+           element= {
+            <ProtectedRoute>
+              <TestMyComponent/>
+              </ProtectedRoute>
+            // </Layout>
+           }
+        
         />
 
         <Route 

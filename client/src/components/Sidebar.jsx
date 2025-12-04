@@ -262,7 +262,7 @@ const Sidebar = () => {
                   {userData.name}
                 </p>
                 <p className="text-xs text-muted-foreground truncate capitalize">
-                  {userData.careerGoal}
+                  {userData.email}
                 </p>
               </div>
             </div>

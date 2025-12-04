@@ -107,9 +107,6 @@
 
 
 
-import { clerkClient } from "@clerk/clerk-sdk-node";
-import { Webhook } from "svix";
-import {requireAuth as clerkRequireAuth} from "@clerk/express"
 
 // ✅ Fixed requireAuth middleware
 
@@ -157,8 +154,18 @@ import {requireAuth as clerkRequireAuth} from "@clerk/express"
 
 
 
+
+import { clerkClient } from "@clerk/clerk-sdk-node";
+import { Webhook } from "svix";
+import {requireAuth as clerkRequireAuth} from "@clerk/express"
+
 // ✅ Use Clerk's built-in requireAuth
-export const requireAuth = clerkRequireAuth();
+export const requireAuth = clerkRequireAuth( {
+  onError: (err, req, res) => {
+    console.log("CLERK ERROR:", err);
+    res.status(401).json({ message: "Unauthorized", details: err });
+  }
+});
 
 
 // ✅ Properly verify webhook signatures
