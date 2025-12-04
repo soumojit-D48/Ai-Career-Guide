@@ -1177,13 +1177,22 @@ Format:
 
 
     // Update user
+    // await User.findOneAndUpdate(
+    //   { clerkId: userId },
+    //   {
+    //     roadmapGenerated: true,
+    //     roadmapId: roadmap._id // Store reference to roadmap
+    //   }
+    // );
+
     await User.findOneAndUpdate(
-      { clerkId: userId },
-      {
-        roadmapGenerated: true,
-        roadmapId: roadmap._id // Store reference to roadmap
-      }
-    );
+  { clerkId: userId },
+  { 
+    roadmapGenerated: true,
+    roadmapId: roadmap._id,
+    $push: { roadmap: { $each: userRoadmapItems } } // Add all items to user's roadmap
+  }
+);
 
     console.log(`Roadmap generated successfully for user ${userId}`);
     return roadmap; // Return the roadmap

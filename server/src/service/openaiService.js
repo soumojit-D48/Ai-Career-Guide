@@ -895,7 +895,7 @@ const openrouter = new OpenAI({
 const MODELS = {
   // Fast & Cheap - Good for most tasks
   FAST: "nvidia/nemotron-nano-9b-v2:free",  // or "anthropic/claude-3-haiku"
-  
+  // tngtech/deepseek-r1t2-chimera:free
   // Balanced - Good quality & speed
   BALANCED: "nvidia/nemotron-nano-9b-v2:free", // or "openai/gpt-4o-mini"
   
