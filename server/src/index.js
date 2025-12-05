@@ -15,6 +15,7 @@ import {clerkMiddleware} from '@clerk/express'
 import authRoutes from "./routes/authRoutes.js";
 import quizRoutes from './routes/quizRoutes.js'
 import seedRoutes from './routes/seedRoutes.js'
+import userRoutes from './routes/userRoutes.js'
 
 
 // dotenv.config()
@@ -31,10 +32,10 @@ app.use(cookieParser())
 // app.use(clerkMiddleware());
 
 // Routes
-app.use("/api/auth", authRoutes);
-
-app.use("/api/quiz", quizRoutes);
 app.use("/api/seed", seedRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/quiz", quizRoutes);
+app.use("/api/user", userRoutes);
 
 
 app.get('/', (req, res) => res.send('api working fine'))
