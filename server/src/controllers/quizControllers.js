@@ -1,5 +1,6 @@
 
 
+// quizController.js
 import User from "../models/User.js";
 import Quiz from "../models/Quiz.js";
 import CareerOptions from "../models/CareerOptions.js";
@@ -295,121 +296,6 @@ export const getStage2Data = async (req, res) => {
  * POST /api/quiz/stage2/submit
  * Submit Stage 2 career selection (with optional quiz answers)
  */
-// export const submitStage2Selection = async (req, res) => {
-//   try {
-//     const { userId } = req.auth;
-//     const { selectedCareer, customCareer, quizAnswers } = req.body;
-
-//     // Get user
-//     const user = await User.findOne({ clerkId: userId });
-//     if (!user) {
-//       return res.status(404).json({ 
-//         success: false, 
-//         message: "User not found" 
-//       });
-//     }
-
-//     // Validate stage
-//     if (!user.stage1Completed) {
-//       return res.status(400).json({ 
-//         success: false, 
-//         message: "Please complete Stage 1 first" 
-//       });
-//     }
-
-//     if (user.stage2Completed) {
-//       return res.status(400).json({ 
-//         success: false, 
-//         message: "Stage 2 already completed" 
-//       });
-//     }
-
-//     let finalCareer, finalCareerLabel;
-
-//     // Handle custom career input
-//     if (customCareer && customCareer.trim()) {
-//       // User typed their own career
-//       finalCareer = customCareer.trim().toLowerCase().replace(/\s+/g, '-');
-//       finalCareerLabel = customCareer.trim();
-//     } else if (selectedCareer) {
-//       // User selected from options
-//       const careerOptions = await CareerOptions.getOptionsByInterest(user.detectedInterest);
-//       const selectedOption = careerOptions?.options.find(opt => opt.value === selectedCareer);
-
-//       if (selectedOption) {
-//         finalCareer = selectedOption.value;
-//         finalCareerLabel = selectedOption.label;
-
-//         // Track selection stats
-//         await careerOptions.recordSelection(selectedCareer);
-//       } else {
-//         return res.status(400).json({ 
-//           success: false, 
-//           message: "Invalid career selection" 
-//         });
-//       }
-//     } else {
-//       return res.status(400).json({ 
-//         success: false, 
-//         message: "Please select or enter a career" 
-//       });
-//     }
-
-//     // Store quiz answers if provided
-//     if (quizAnswers && Array.isArray(quizAnswers) && quizAnswers.length > 0) {
-//       const formattedAnswers = quizAnswers.map(ans => ({
-//         stage: 2,
-//         quizId: ans.quizId,
-//         questionId: ans.questionId,
-//         question: ans.question,
-//         answer: ans.answer,
-//         answeredAt: new Date()
-//       }));
-
-//       user.quizAnswers.push(...formattedAnswers);
-//     }
-
-//     // Update user
-//     user.chosenCareer = finalCareer;
-//     user.chosenCareerLabel = finalCareerLabel;
-//     user.stage2Completed = true;
-//     user.currentStage = 3;
-//     user.lastQuizActivity = new Date();
-
-//     await user.save();
-
-//     console.log(userId, finalCareer, finalCareerLabel, user.quizAnswers, "sdndjbjkkjs");
-
-
-//     // Generate roadmap asynchronously
-//     await generateRoadmapForUser(userId, finalCareer, finalCareerLabel, user.quizAnswers);
-
-//     res.json({ 
-//       success: true,
-//       message: "Career selected successfully",
-//       data: {
-//         chosenCareer: finalCareer,
-//         chosenCareerLabel: finalCareerLabel,
-//         currentStage: 3,
-//         roadmapGenerating: true
-//       }
-//     });
-
-//   } catch (error) {
-//     console.error("Error in submitStage2Selection:", error);
-//     res.status(500).json({ 
-//       success: false, 
-//       message: "Failed to submit selection",
-//       error: error.message 
-//     });
-//   }
-// };
-
-
-
-
-
-// ==================== STAGE 3 ====================
 
 
 export const submitStage2Selection = async (req, res) => {
@@ -831,11 +717,37 @@ export const updateRoadmapProgress = async (req, res) => {
     const { userId } = req.auth;
     const { itemId, progress, completed } = req.body;
 
+    // Validate input
+    if (!itemId) {
+      return res.status(400).json({
+        success: false,
+        message: "itemId is required"
+      });
+    }
+
     const user = await User.findOne({ clerkId: userId });
     if (!user) {
       return res.status(404).json({
         success: false,
         message: "User not found"
+      });
+    }
+
+    // Get user's roadmap to validate itemId exists
+    const roadmap = await Roadmap.getUserActiveRoadmap(userId);
+    if (!roadmap) {
+      return res.status(404).json({
+        success: false,
+        message: "Roadmap not found"
+      });
+    }
+
+    // Validate itemId exists in the roadmap
+    const roadmapItem = roadmap.items.find(item => item.itemId === itemId);
+    if (!roadmapItem) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid itemId: Item not found in your roadmap"
       });
     }
 
@@ -845,7 +757,7 @@ export const updateRoadmapProgress = async (req, res) => {
     );
 
     if (!userRoadmapItem) {
-      // Add new item
+      // Add new item (now validated)
       user.roadmap.push({
         roadmapItemId: itemId,
         progress: progress || 0,
@@ -887,9 +799,49 @@ export const updateRoadmapProgress = async (req, res) => {
  * POST /api/quiz/reset
  * Reset user's entire journey
  */
+// export const resetJourney = async (req, res) => {
+//   try {
+//     const { userId } = req.auth;
+
+//     const user = await User.findOne({ clerkId: userId });
+//     if (!user) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "User not found"
+//       });
+//     }
+
+//     await user.resetJourney();
+
+//     res.json({
+//       success: true,
+//       message: "Journey reset successfully",
+//       data: {
+//         currentStage: 1,
+//         journeyResets: user.journeyResets
+//       }
+//     });
+
+//   } catch (error) {
+//     console.error("Error in resetJourney:", error);
+//     res.status(500).json({
+//       success: false,
+//       message: "Failed to reset journey",
+//       error: error.message
+//     });
+//   }
+// };
+
+// ==================== HELPER FUNCTIONS ====================
+
+
+
+// POST /api/quiz/reset?type=soft (default)
+// POST /api/quiz/reset?type=hard
 export const resetJourney = async (req, res) => {
   try {
     const { userId } = req.auth;
+    const { type } = req.query; // 'soft' or 'hard'
 
     const user = await User.findOne({ clerkId: userId });
     if (!user) {
@@ -899,14 +851,20 @@ export const resetJourney = async (req, res) => {
       });
     }
 
-    await user.resetJourney();
+    if (type === 'hard') {
+      await user.resetEverything();
+    } else {
+      await user.resetJourney();
+    }
 
     res.json({
       success: true,
-      message: "Journey reset successfully",
+      message: `Journey ${type === 'hard' ? 'completely' : ''} reset successfully`,
       data: {
-        currentStage: 1,
-        journeyResets: user.journeyResets
+        currentStage: user.currentStage,
+        journeyResets: user.journeyResets,
+        xp: user.xp,
+        level: user.level
       }
     });
 
@@ -920,123 +878,8 @@ export const resetJourney = async (req, res) => {
   }
 };
 
-// ==================== HELPER FUNCTIONS ====================
 
-/**
- * Generate roadmap asynchronously (called after Stage 2 completion)
- */
-// async function generateRoadmapForUser(userId, career, careerLabel, quizAnswers) {
-//   try {
-//     console.log(`Generating roadmap for user ${userId}, career: ${career}`);
-
-//     // Create prompt for AI
-//     const prompt = `Create a comprehensive learning roadmap for someone who wants to become a ${careerLabel}.
-
-// User's background (from quiz answers):
-// ${quizAnswers.slice(-15).map(a => `Q: ${a.question}\nA: ${a.answer}`).join('\n\n')}
-
-// Generate a detailed roadmap with 20-30 items covering:
-// 1. Foundation (beginner level)
-// 2. Intermediate skills
-// 3. Advanced concepts
-// 4. Expert/Specialized topics
-
-// For each item, provide:
-// - title (concise, clear)
-// - description (1-2 sentences)
-// - phase (Foundation/Intermediate/Advanced/Expert)
-// - estimatedHours (numeric)
-// - skills (array of strings)
-// - difficulty (beginner/intermediate/advanced/expert)
-// - prerequisites (array of item titles that must be completed first)
-// - relatedTopics (array of specific topics for quizzes)
-
-// Return ONLY valid JSON in this format:
-// {
-//   "title": "Complete ${careerLabel} Roadmap",
-//   "description": "...",
-//   "items": [
-//     {
-//       "title": "...",
-//       "description": "...",
-//       "phase": "Foundation",
-//       "estimatedHours": 20,
-//       "skills": ["..."],
-//       "difficulty": "beginner",
-//       "prerequisites": [],
-//       "relatedTopics": ["..."]
-//     }
-//   ]
-// }`;
-
-//     const aiResponse = await geminiAPI.generateRoadmap(prompt);
-//     const roadmapData = JSON.parse(aiResponse);
-
-//     // Add order and itemId to each item
-//     const processedItems = roadmapData.items.map((item, index) => ({
-//       ...item,
-//       itemId: new mongoose.Types.ObjectId().toString(),
-//       order: index + 1,
-//       estimatedTime: `${Math.ceil(item.estimatedHours / 8)} days`
-//     }));
-
-//     // Create phases
-//     const phases = [
-//       {
-//         name: "Foundation",
-//         order: 1,
-//         description: "Essential basics to get started",
-//         itemIds: processedItems.filter(i => i.phase === "Foundation").map(i => i.itemId)
-//       },
-//       {
-//         name: "Intermediate",
-//         order: 2,
-//         description: "Building practical skills",
-//         itemIds: processedItems.filter(i => i.phase === "Intermediate").map(i => i.itemId)
-//       },
-//       {
-//         name: "Advanced",
-//         order: 3,
-//         description: "Deep dive into complex topics",
-//         itemIds: processedItems.filter(i => i.phase === "Advanced").map(i => i.itemId)
-//       },
-//       {
-//         name: "Expert",
-//         order: 4,
-//         description: "Specialized and cutting-edge skills",
-//         itemIds: processedItems.filter(i => i.phase === "Expert").map(i => i.itemId)
-//       }
-//     ].filter(phase => phase.itemIds.length > 0);
-
-//     // Create roadmap
-//     const roadmap = await Roadmap.create({
-//       userId,
-//       career,
-//       careerLabel,
-//       title: roadmapData.title,
-//       description: roadmapData.description,
-//       items: processedItems,
-//       phases,
-//       generatedByAI: true,
-//       isPersonalized: true,
-//       aiPromptUsed: prompt
-//     });
-
-//     // Update user
-//     await User.findOneAndUpdate(
-//       { clerkId: userId },
-//       { roadmapGenerated: true }
-//     );
-
-//     console.log(`Roadmap generated successfully for user ${userId}`);
-
-//   } catch (error) {
-//     console.error("Error generating roadmap:", error);
-//     // Don't throw, just log - user can retry later
-//   }
-// } 
-
-
+// Helpers maybe have to move to service folder 
 
 async function generateRoadmapForUser(userId, career, careerLabel, quizAnswers) {
   try {
@@ -1166,14 +1009,14 @@ Format:
 
     // init
     const userRoadmapItems = processedItems.map(item => ({
-  itemId: item.itemId,
-  status: 'not-started',
-  progress: 0,
-  startedAt: null,
-  completedAt: null,
-  notes: '',
-  resourcesCompleted: []
-}));
+      itemId: item.itemId,
+      status: 'not-started',
+      progress: 0,
+      startedAt: null,
+      completedAt: null,
+      notes: '',
+      resourcesCompleted: []
+    }));
 
 
     // Update user
@@ -1186,13 +1029,13 @@ Format:
     // );
 
     await User.findOneAndUpdate(
-  { clerkId: userId },
-  { 
-    roadmapGenerated: true,
-    roadmapId: roadmap._id,
-    $push: { roadmap: { $each: userRoadmapItems } } // Add all items to user's roadmap
-  }
-);
+      { clerkId: userId },
+      {
+        roadmapGenerated: true,
+        roadmapId: roadmap._id,
+        $push: { roadmap: { $each: userRoadmapItems } } // Add all items to user's roadmap
+      }
+    );
 
     console.log(`Roadmap generated successfully for user ${userId}`);
     return roadmap; // Return the roadmap
@@ -1224,7 +1067,7 @@ Format:
  */
 async function generateStage3QuizWithAI(career, topic, userId) {
   try {
-    const prompt = `Generate 10 quiz questions about "${topic}" for someone learning ${career}.
+    const prompt = `Generate EXACTLY 10 quiz questions about "${topic}" for someone learning ${career}.
 
 Requirements:
 - Mix of difficulty levels (mostly beginner/intermediate)
@@ -1287,5 +1130,6 @@ export default {
   getStage3Quiz,
   submitStage3Quiz,
   updateRoadmapProgress,
-  resetJourney
+  resetJourney,
+
 };

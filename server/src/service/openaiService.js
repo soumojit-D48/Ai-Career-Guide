@@ -873,14 +873,8 @@
 
 
 
-// service/openrouterService.js
-
+// openaiService.js
 import OpenAI from "openai";
-
-/**
- * OpenRouter Service - Uses OpenRouter API for cost-effective AI generation
- * OpenRouter provides access to multiple models with transparent pricing
- */
 
 const openrouter = new OpenAI({
   baseURL: "https://openrouter.ai/api/v1",
@@ -893,19 +887,12 @@ const openrouter = new OpenAI({
 
 // Model configuration - easily switch models
 const MODELS = {
-  // Fast & Cheap - Good for most tasks
-  FAST: "nvidia/nemotron-nano-9b-v2:free",  // or "anthropic/claude-3-haiku"
-  // tngtech/deepseek-r1t2-chimera:free
-  // Balanced - Good quality & speed
-  BALANCED: "nvidia/nemotron-nano-9b-v2:free", // or "openai/gpt-4o-mini"
-  
-  // Premium - Best quality for complex tasks
-  PREMIUM: "nvidia/nemotron-nano-9b-v2:free" // or "anthropic/claude-3.5-sonnet"
+  FAST: "nvidia/nemotron-nano-9b-v2:free",  
+  BALANCED: "nvidia/nemotron-nano-9b-v2:free", 
+  PREMIUM: "nvidia/nemotron-nano-9b-v2:free" 
 };
 
-/**
- * OpenRouter API Service
- */
+
 export const openrouterAPI = {
   /**
    * Generate Stage 1 Quiz (Initial Assessment)
@@ -1190,44 +1177,6 @@ Return ONLY valid JSON:
   },
 
   /**
-   * Generate personalized roadmap
-   * Uses premium model for best quality
-   */
-  // async generateRoadmap(prompt) {
-  //   try {
-  //     const completion = await openrouter.chat.completions.create({
-  //       model: MODELS.PREMIUM, // Use best model for roadmap generation
-  //       messages: [
-  //         {
-  //           role: "system",
-  //           content: "You are an expert curriculum designer and career mentor. Create comprehensive, practical learning roadmaps. Return only valid JSON with no markdown formatting."
-  //         },
-  //         {
-  //           role: "user",
-  //           content: prompt
-  //         }
-  //       ],
-  //       temperature: 0.7,
-  //       response_format: { type: "json_object" }
-  //     });
-
-  //     const response = completion.choices[0].message.content;
-      
-  //     console.log("✓ Roadmap generated");
-  //     console.log(`  Model: ${MODELS.PREMIUM}`);
-  //     if (completion.usage) {
-  //       console.log(`  Tokens: ${completion.usage.total_tokens}`);
-  //     }
-      
-  //     return response;
-  //   } catch (error) {
-  //     console.error("Error generating roadmap:", error);
-  //     throw new Error(`Roadmap generation failed: ${error.message}`);
-  //   }
-  // },
-
-
-  /**
  * Generate personalized roadmap
  * Uses premium model for best quality
  */
@@ -1264,8 +1213,6 @@ async generateRoadmap(prompt) {
   }
 },
 
-
-  
   /**
    * Generate Stage 3 quiz for specific topic
    * Uses balanced model

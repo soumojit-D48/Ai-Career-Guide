@@ -210,6 +210,11 @@ userSchema.pre('save', function(next) {
 });
 
 // ---------- Methods ----------
+
+
+// Add two methods in User.js
+
+// Soft reset - keeps achievements
 userSchema.methods.resetJourney = function() {
   this.currentStage = 1;
   this.stage1Completed = false;
@@ -227,6 +232,41 @@ userSchema.methods.resetJourney = function() {
   this.lastResetAt = Date.now();
   return this.save();
 };
+
+// Hard reset - wipes everything
+userSchema.methods.resetEverything = function() {
+  this.currentStage = 1;
+  this.stage1Completed = false;
+  this.stage2Completed = false;
+  this.detectedInterest = undefined;
+  this.stage2PresentedOptions = [];
+  this.chosenCareer = undefined;
+  this.chosenCareerLabel = undefined;
+  this.roadmapGenerated = false;
+  this.roadmap = [];
+  this.currentTopic = undefined;
+  this.completedTopics = [];
+  this.quizAnswers = [];
+  this.xp = 0;
+  this.level = 1;
+  this.badges = [];
+  this.stats = {
+    careerProgress: 0,
+    skillsMastered: 0,
+    goalsAchieved: 0,
+    totalGoals: 0,
+    learningHours: 0,
+    quizzesTaken: 0,
+    correctAnswers: 0,
+    totalAnswers: 0
+  };
+  this.journeyResets += 1;
+  this.lastResetAt = Date.now();
+  return this.save();
+};
+
+
+
 
 userSchema.methods.calculateAccuracy = function() {
   if (this.stats.totalAnswers === 0) return 0;
