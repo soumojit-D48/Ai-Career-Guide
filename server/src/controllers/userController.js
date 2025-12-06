@@ -8,8 +8,7 @@ import Roadmap from "../models/Roadmap.js";
 import User from "../models/User.js";
 import Quiz from "../models/Quiz.js";
 
-
-export const getUserProfile = async (req, res) => {
+const getUserProfile = async (req, res) => {
     try {
         const { userId } = req.auth
 
@@ -109,4 +108,4 @@ export const getUserProfile = async (req, res) => {
     }
 };
 
-export default { getUserProfile };
+export default getUserProfile
